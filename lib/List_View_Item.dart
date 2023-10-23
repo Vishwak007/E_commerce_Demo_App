@@ -7,7 +7,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ListViewItem extends StatelessWidget {
   final _controller =
-      PageController(initialPage: 0, keepPage: true, viewportFraction: 1);
+      PageController(initialPage: 0, keepPage: true, viewportFraction: 0.85);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -15,7 +15,7 @@ class ListViewItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(left: 12),
+          padding: EdgeInsets.only(left: 18, top: 25),
           child: Text(
             "Trendings",
             style: TextStyle(
@@ -28,9 +28,10 @@ class ListViewItem extends StatelessWidget {
         //////////////////////////////////////
         Container(
           width: double.infinity,
-          height: 200,
-          padding: EdgeInsets.only(left: 15, right: 20),
+          height: MediaQuery.of(context).size.height * 0.25, //200,
+          // padding: EdgeInsets.only(left: 20, right: 0),
           child: PageView(
+            padEnds: true,
             controller: _controller,
             scrollDirection: Axis.horizontal,
             children: <Widget>[
@@ -78,6 +79,7 @@ class ListViewItem extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
+
         LowerHalfPart(),
       ],
     );

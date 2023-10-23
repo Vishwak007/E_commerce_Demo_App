@@ -20,7 +20,7 @@ class GridViewCart extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
-            width: double.infinity,
+            width: 200,
             height: 120,
             decoration: BoxDecoration(
                 color: Colors.grey[200],

@@ -20,7 +20,7 @@ class PageViewCart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.only(right: 20),
-        padding: EdgeInsets.only(left: 20, right: 10),
+        padding: EdgeInsets.only(left: 20, right: 17),
         height: double.infinity,
         width: double.infinity,
         decoration: BoxDecoration(

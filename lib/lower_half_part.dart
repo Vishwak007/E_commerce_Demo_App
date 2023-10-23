@@ -31,7 +31,9 @@ class LowerHalfPartState extends State<LowerHalfPart> {
       var returnItemObj = Item.fromJson(it);
       if (categoryWiseItem.containsKey(returnItemObj.category)) {
         itemList.add(returnItemObj);
-        categoryWiseItem[returnItemObj.category]?.add(returnItemObj);
+        if (categoryWiseItem[returnItemObj.category] != null) {
+          categoryWiseItem[returnItemObj.category]?.add(returnItemObj);
+        }
       } else {
         itemList.add(returnItemObj);
         categoryWiseItem[returnItemObj.category] = [returnItemObj];
@@ -71,22 +73,29 @@ class LowerHalfPartState extends State<LowerHalfPart> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(right: 10, left: 10, top: 20),
-      height: 350,
+      padding: EdgeInsets.only(right: 10, left: 13, top: 14),
+      // height: 700,
       width: double.infinity,
       decoration: BoxDecoration(
-          color: Colors.grey[50],
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(35), topRight: Radius.circular(35))),
+        color: Colors.white,
+        // borderRadius: BorderRadius.only(
+        //     topLeft: Radius.circular(35), topRight: Radius.circular(35))
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Categories",
-            style: TextStyle(
-                fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold),
+          Padding(
+            padding: EdgeInsets.only(left: 5, top: 0),
+            child: Text(
+              "Categories",
+              style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
+
           SizedBox(
             height: 10,
           ),
@@ -114,9 +123,15 @@ class LowerHalfPartState extends State<LowerHalfPart> {
           SizedBox(
             height: 15,
           ),
+          // GridView.builder(
+          //     itemCount: actionList.length,
+          //     gridDelegate:
+          //         SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          //     itemBuilder: (context, index) =>
+          //         GridViewCart(item: actionList[index])),
           Container(
             width: double.infinity,
-            height: 240,
+            height: 450,
             child: GridView.builder(
                 itemCount: actionList.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

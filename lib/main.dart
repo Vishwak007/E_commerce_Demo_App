@@ -17,6 +17,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.grey[250],
+    ));
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Siya.Store",
@@ -36,62 +41,77 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  double getHeight(BuildContext context) {
+    double hgt = MediaQuery.of(context).size.height;
+    debugPrint("hgt:$hgt");
+    return hgt;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: Color.fromARGB(255, 244, 239, 239),
-          appBar: AppBar(
-            toolbarHeight: 0,
-            backgroundColor: Colors.grey[290],
-            systemOverlayStyle:
-                SystemUiOverlayStyle(statusBarColor: Colors.grey[250]),
-          ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                  padding: EdgeInsets.only(left: 10, top: 10),
-                  child: AppBarTitle()),
-              SizedBox(
-                height: 25,
-              ),
-              Container(
-                height: 635,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 244, 239, 239),
+          body: Container(
+            height: getHeight(context) - 42,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                    padding: EdgeInsets.only(left: 10, top: 10),
+                    child: AppBarTitle()),
+                SizedBox(
+                  height: 25,
                 ),
-                child: ListView(
-                  children: <Widget>[
-                    ListViewItem(),
-                  ],
-                ),
-              )
+                Container(
+                    height: getHeight(context) * 0.73,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Colors.grey[50],
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(35),
+                            topRight: Radius.circular(35))),
+                    child: SingleChildScrollView(
+                      child: ListViewItem(),
+                    ))
 
-              //////////////////////////////
-            ],
+                //////////////////////////////
+              ],
+            ),
           ),
           bottomNavigationBar: BottomAppBar(
-            height: 42,
+            height: 50,
             child: Padding(
-                padding: EdgeInsets.only(left: 60, right: 60),
+                padding: EdgeInsets.only(top: 10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    IconButton(
-                        onPressed: null,
-                        icon: Icon(
-                          Icons.home_filled,
-                          size: 38,
-                        )),
-                    IconButton(
-                        onPressed: null,
-                        icon: Icon(
-                          Icons.settings,
-                          size: 38,
-                        )),
+                    Image(
+                        image: AssetImage("lib/icon/home.png"),
+                        height: 32,
+                        color: Color.fromARGB(255, 229, 66, 48)),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Image(
+                      image: AssetImage("lib/icon/settings.png"),
+                      height: 32,
+                      color: Color.fromARGB(255, 229, 66, 48),
+                    ),
+                    // IconButton(
+                    //     onPressed: null,
+                    //     icon: Icon(
+                    //       size: 38,
+                    //     )),
+                    // IconButton(
+                    //     onPressed: null,
+                    //     icon: Icon(
+                    //       Icons.settings,
+                    //       size: 38,
+                    //     )),
                   ],
                 )),
           )),
