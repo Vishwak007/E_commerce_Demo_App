@@ -4,6 +4,7 @@ import 'dart:ffi';
 
 import 'package:e_commerce_demo_app/grid_view_cart.dart';
 import 'package:e_commerce_demo_app/model/Item.dart';
+import 'package:e_commerce_demo_app/object_detail.dart';
 import 'package:e_commerce_demo_app/text_cat_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -130,15 +131,24 @@ class LowerHalfPartState extends State<LowerHalfPart> {
           //     itemBuilder: (context, index) =>
           //         GridViewCart(item: actionList[index])),
           Container(
-            width: double.infinity,
-            height: 450,
-            child: GridView.builder(
+              width: double.infinity,
+              height: 450,
+              child: GridView.builder(
                 itemCount: actionList.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
-                itemBuilder: (context, index) =>
-                    GridViewCart(item: actionList[index])),
-          )
+                itemBuilder: (context, index) => GestureDetector(
+                  child: GridViewCart(item: actionList[index]),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ObjectDetails(item: actionList[index])),
+                    );
+                  },
+                ),
+              ))
         ],
       ),
     );
