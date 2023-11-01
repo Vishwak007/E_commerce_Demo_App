@@ -46,7 +46,7 @@ class GridViewCart extends StatelessWidget {
             ],
           ),
           Text(
-            "Rs ${item.price}.00",
+            "₹${item.price}.00",
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey,
