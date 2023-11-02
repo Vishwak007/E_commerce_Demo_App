@@ -1,6 +1,7 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last
 
 import 'package:e_commerce_demo_app/model/Item.dart';
+import 'package:e_commerce_demo_app/my_cart_page.dart';
 import 'package:e_commerce_demo_app/search_bar_app.dart';
 import 'package:e_commerce_demo_app/show_item_list.dart';
 import 'package:easy_search_bar/easy_search_bar.dart';
@@ -81,22 +82,33 @@ class AppBarTitle extends StatelessWidget {
                   BoxDecoration(borderRadius: BorderRadius.circular(50)),
             ),
             //For cart icon
-            Container(
-              padding: EdgeInsets.only(right: 14),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.white, blurRadius: 5, spreadRadius: 8)
-                  ]),
-              child: IconButton(
-                padding: EdgeInsets.only(left: 15),
-                onPressed: null,
-                icon: Icon(Icons.shopping_cart),
-                color: Colors.grey,
+            GestureDetector(
+              child: Container(
+                padding: EdgeInsets.only(right: 14),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.white, blurRadius: 5, spreadRadius: 8)
+                    ]),
+                child: IconButton(
+                  padding: EdgeInsets.only(left: 15),
+                  onPressed: null,
+                  icon: Icon(Icons.shopping_cart),
+                  color: Colors.grey,
+                ),
               ),
-            ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MyCartPage(
+                          listOfAddedItem: categoryWise[mSuggestions[0]],
+                          listOfQuant: null)),
+                );
+              },
+            )
           ],
         )
       ],
