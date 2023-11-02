@@ -26,6 +26,7 @@ class ObjectDetailsState extends State<ObjectDetails> {
   var isDPressed = true;
   var isSPressed = false;
   var isRPressed = false;
+  int count = 0;
   ObjectDetailsState({required this.product});
   var prodKey = [
     "id",
@@ -39,6 +40,20 @@ class ObjectDetailsState extends State<ObjectDetails> {
     "category",
     "thumbnail"
   ];
+  void addCount() {
+    setState(() {
+      count = count + 1;
+    });
+  }
+
+  void removeCount() {
+    setState(() {
+      if (count > 0) {
+        count = count - 1;
+      }
+    });
+  }
+
   Widget callBtn() {
     if (isDPressed) {
       return Description(description: product.description);
@@ -52,236 +67,321 @@ class ObjectDetailsState extends State<ObjectDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: SingleChildScrollView(
-          child: Column(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.6,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: (MediaQuery.of(context).size.height * 0.6) - 10,
-                  child: PageView.builder(
-                      controller: _controller,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: product.images.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          child: Image(
-                            height:
-                                (MediaQuery.of(context).size.height * 0.6) - 10,
-                            image: NetworkImage(product.images[index]),
-                            fit: BoxFit.cover,
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      FullImages(images: product.images)),
-                            );
-                          },
-                        );
-                      }),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SmoothPageIndicator(
-                      controller: _controller,
-                      count: product.images.length,
-                      effect: ExpandingDotsEffect(
-                          dotColor: Colors.grey,
-                          dotHeight: 8,
-                          dotWidth: 8,
-                          activeDotColor: Colors.black),
-                    )
-                  ],
-                ),
-              ],
-            ),
+        bottomNavigationBar: BottomAppBar(
+          height: 70,
+          color: Color.fromARGB(255, 245, 245, 245),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  height: 30,
+                  width: 110,
+                  color: Color.fromARGB(255, 229, 228, 228),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        height: 40, //height of button
+                        width: 40, //width of button
+                        child: ElevatedButton(
+                            onPressed: removeCount,
+                            child: Text(
+                              "-",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 3, 56, 60),
+                              disabledBackgroundColor:
+                                  const Color.fromARGB(255, 3, 56, 60),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            )
+                            // fixedSize: Size(10, 30)),
+                            ),
+                      ),
+                      Text(
+                        count.toString(),
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      SizedBox(
+                        height: 40, //height of button
+                        width: 40, //width of button
+                        child: ElevatedButton(
+                            onPressed: addCount,
+                            child: Text(
+                              "+",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 3, 56, 60),
+                              disabledBackgroundColor:
+                                  const Color.fromARGB(255, 3, 56, 60),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            )
+                            // fixedSize: Size(10, 30)),
+                            ),
+                      ),
+                    ],
+                  )),
+              SizedBox(
+                width: 25,
+              ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 255, 64, 0),
+                      disabledBackgroundColor:
+                          const Color.fromARGB(255, 255, 64, 0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      fixedSize: Size(130, 40)),
+                  onPressed: null,
+                  child: Text(
+                    "Add to Cart",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  )),
+            ],
           ),
-          Container(
-            color: Colors.white,
-            padding: EdgeInsets.all(8),
-            height: (MediaQuery.of(context).size.height * 0.1) + 20,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.only(left: 5),
-                  width: (MediaQuery.of(context).size.width * 0.3) + 10,
-                  // color: Color.fromARGB(255, 147, 178, 203),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: Color.fromARGB(255, 165, 196, 200),
-                  ),
-                  child: RatingStar(ratingStar: double.parse(product.rating)),
-                ),
-                Text(
-                  product.title,
-                  maxLines: 1,
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "${product.discountPercentage}% off  ",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                          color: Color.fromARGB(255, 25, 87, 34)),
+        ),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height - 70,
+          child: SingleChildScrollView(
+              child: Column(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: (MediaQuery.of(context).size.height * 0.6) - 10,
+                      child: PageView.builder(
+                          controller: _controller,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: product.images.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              child: Image(
+                                height:
+                                    (MediaQuery.of(context).size.height * 0.6) -
+                                        10,
+                                image: NetworkImage(product.images[index]),
+                                fit: BoxFit.cover,
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          FullImages(images: product.images)),
+                                );
+                              },
+                            );
+                          }),
                     ),
-                    Stack(
-                      fit: StackFit.loose,
-                      alignment: AlignmentDirectional.center,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "20000 ",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                              color: Color.fromARGB(255, 73, 73, 73)),
-                        ),
-                        Container(
-                          width: 65,
-                          height: 2,
-                          color: Colors.grey,
+                        SmoothPageIndicator(
+                          controller: _controller,
+                          count: product.images.length,
+                          effect: ExpandingDotsEffect(
+                              dotColor: Colors.grey,
+                              dotHeight: 8,
+                              dotWidth: 8,
+                              activeDotColor: Colors.black),
                         )
                       ],
                     ),
+                  ],
+                ),
+              ),
+              Container(
+                color: Colors.white,
+                padding: EdgeInsets.all(8),
+                height: (MediaQuery.of(context).size.height * 0.1) + 20,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 5),
+                      width: (MediaQuery.of(context).size.width * 0.3) + 10,
+                      // color: Color.fromARGB(255, 147, 178, 203),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: Color.fromARGB(255, 165, 196, 200),
+                      ),
+                      child:
+                          RatingStar(ratingStar: double.parse(product.rating)),
+                    ),
                     Text(
-                      "  ₹${product.price}",
+                      product.title,
+                      maxLines: 1,
                       style: TextStyle(
-                          fontSize: 25,
+                          fontSize: 30,
                           fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 68, 68, 68)),
+                          color: Colors.black),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "${product.discountPercentage}% off  ",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                              color: Color.fromARGB(255, 25, 87, 34)),
+                        ),
+                        Stack(
+                          fit: StackFit.loose,
+                          alignment: AlignmentDirectional.center,
+                          children: [
+                            Text(
+                              "20000 ",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                  color: Color.fromARGB(255, 73, 73, 73)),
+                            ),
+                            Container(
+                              width: 65,
+                              height: 2,
+                              color: Colors.grey,
+                            )
+                          ],
+                        ),
+                        Text(
+                          "  ₹${product.price}",
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: const Color.fromARGB(255, 68, 68, 68)),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          Container(
-            color: Colors.grey[50],
-            width: (MediaQuery.of(context).size.width),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              ),
+              Container(
+                color: Colors.grey[50],
+                width: (MediaQuery.of(context).size.width),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            isRPressed = false;
-                            isDPressed = true;
-                            isSPressed = false;
-                          });
-                        },
-                        child: Text(
-                          "Description",
-                          style: TextStyle(
-                            color: isDPressed
-                                ? Colors.white
-                                : Color.fromARGB(255, 3, 56, 60),
-                            fontSize: 16,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          // disabledBackgroundColor: isDPressed
-                          //     ? Color.fromARGB(255, 3, 56, 60)
-                          //     : Color.fromARGB(255, 255, 255, 255),
-                          backgroundColor: isDPressed
-                              ? Color.fromARGB(255, 3, 56, 60)
-                              : Color.fromARGB(255, 255, 255, 255),
-                          textStyle: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                        )),
-                    ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            isRPressed = false;
-                            isDPressed = false;
-                            isSPressed = true;
-                          });
-                        },
-                        child: Text(
-                          "Specification",
-                          style: TextStyle(
-                            color: isSPressed
-                                ? Colors.white
-                                : Color.fromARGB(255, 3, 56, 60),
-                            fontSize: 16,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: isSPressed
-                              ? Color.fromARGB(255, 3, 56, 60)
-                              : Color.fromARGB(255, 255, 255, 255),
-                          textStyle: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                        )),
-                    ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            isRPressed = true;
-                            isDPressed = false;
-                            isSPressed = false;
-                          });
-                        },
-                        child: Text(
-                          "Reviews",
-                          style: TextStyle(
-                            color: isRPressed
-                                ? Colors.white
-                                : Color.fromARGB(255, 3, 56, 60),
-                            fontSize: 16,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: isRPressed
-                              ? Color.fromARGB(255, 3, 56, 60)
-                              : Color.fromARGB(255, 255, 255, 255),
-                          textStyle: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                        )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                isRPressed = false;
+                                isDPressed = true;
+                                isSPressed = false;
+                              });
+                            },
+                            child: Text(
+                              "Description",
+                              style: TextStyle(
+                                color: isDPressed
+                                    ? Colors.white
+                                    : Color.fromARGB(255, 3, 56, 60),
+                                fontSize: 16,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              // disabledBackgroundColor: isDPressed
+                              //     ? Color.fromARGB(255, 3, 56, 60)
+                              //     : Color.fromARGB(255, 255, 255, 255),
+                              backgroundColor: isDPressed
+                                  ? Color.fromARGB(255, 3, 56, 60)
+                                  : Color.fromARGB(255, 255, 255, 255),
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                            )),
+                        ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                isRPressed = false;
+                                isDPressed = false;
+                                isSPressed = true;
+                              });
+                            },
+                            child: Text(
+                              "Specification",
+                              style: TextStyle(
+                                color: isSPressed
+                                    ? Colors.white
+                                    : Color.fromARGB(255, 3, 56, 60),
+                                fontSize: 16,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: isSPressed
+                                  ? Color.fromARGB(255, 3, 56, 60)
+                                  : Color.fromARGB(255, 255, 255, 255),
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                            )),
+                        ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                isRPressed = true;
+                                isDPressed = false;
+                                isSPressed = false;
+                              });
+                            },
+                            child: Text(
+                              "Reviews",
+                              style: TextStyle(
+                                color: isRPressed
+                                    ? Colors.white
+                                    : Color.fromARGB(255, 3, 56, 60),
+                                fontSize: 16,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: isRPressed
+                                  ? Color.fromARGB(255, 3, 56, 60)
+                                  : Color.fromARGB(255, 255, 255, 255),
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                            )),
+                      ],
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      // height: (MediaQuery.of(context).size.height * 0.3) - 50,
+                      // width: double.infinity,
+                      color: Colors.grey[50],
+                      child: callBtn(),
+                    )
                   ],
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  // height: (MediaQuery.of(context).size.height * 0.3) - 50,
-                  // width: double.infinity,
-                  color: Colors.grey[50],
-                  child: callBtn(),
-                )
-              ],
-            ),
-          )
-        ],
-      )),
-    ));
+              )
+            ],
+          )),
+        ));
   }
 }

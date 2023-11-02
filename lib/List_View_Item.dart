@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:e_commerce_demo_app/lower_half_part.dart';
+import 'package:e_commerce_demo_app/model/Item.dart';
 import 'package:e_commerce_demo_app/page_view_cart.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -8,6 +9,19 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 class ListViewItem extends StatelessWidget {
   final _controller =
       PageController(initialPage: 0, keepPage: true, viewportFraction: 0.85);
+
+  final List<Item> itemList;
+  final List<String> categoryList;
+  final Map<String, List<Item>> categoryWiseItem;
+  List<Item> actionList;
+
+  ListViewItem(
+      {super.key,
+      required this.itemList,
+      required this.categoryList,
+      required this.categoryWiseItem,
+      required this.actionList});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -80,7 +94,11 @@ class ListViewItem extends StatelessWidget {
           height: 20,
         ),
 
-        LowerHalfPart(),
+        LowerHalfPart(
+            itemList: itemList,
+            categoryList: categoryList,
+            categoryWiseItem: categoryWiseItem,
+            actionList: actionList),
       ],
     );
   }

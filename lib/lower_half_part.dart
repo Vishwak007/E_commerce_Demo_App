@@ -12,64 +12,89 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class LowerHalfPart extends StatefulWidget {
+  final List<Item> itemList;
+  final List<String> categoryList;
+  final Map<String, List<Item>> categoryWiseItem;
+  List<Item> actionList;
+  LowerHalfPart(
+      {super.key,
+      required this.itemList,
+      required this.categoryList,
+      required this.categoryWiseItem,
+      required this.actionList});
+
   @override
   State<StatefulWidget> createState() {
-    return LowerHalfPartState();
+    return LowerHalfPartState(
+        itemList: itemList,
+        categoryList: categoryList,
+        categoryWiseItem: categoryWiseItem,
+        actionList: actionList);
   }
 }
 
 class LowerHalfPartState extends State<LowerHalfPart> {
-  List<Item> itemList = List.empty(growable: true);
-  List<String> categoryList = List.empty(growable: true);
-  Map<String, List<Item>> categoryWiseItem = {};
-  List<Item> actionList = List.empty(growable: true);
+  final List<Item> itemList;
+  final List<String> categoryList;
+  final Map<String, List<Item>> categoryWiseItem;
+  List<Item> actionList;
+  LowerHalfPartState(
+      {required this.itemList,
+      required this.categoryList,
+      required this.categoryWiseItem,
+      required this.actionList});
 
-  void decodeResponseBody(String respBody) {
-    var data = json.decode(respBody);
-    List<dynamic> products = data["products"];
-    categoryList.add("All");
-    for (var it in products) {
-      var returnItemObj = Item.fromJson(it);
-      if (categoryWiseItem.containsKey(returnItemObj.category)) {
-        itemList.add(returnItemObj);
-        if (categoryWiseItem[returnItemObj.category] != null) {
-          categoryWiseItem[returnItemObj.category]?.add(returnItemObj);
-        }
-      } else {
-        itemList.add(returnItemObj);
-        categoryWiseItem[returnItemObj.category] = [returnItemObj];
-        categoryList.add(returnItemObj.category);
-      }
-    }
+  // List<Item> itemList = List.empty(growable: true);
+  // List<String> categoryList = List.empty(growable: true);
+  // Map<String, List<Item>> categoryWiseItem = {};
+  // List<Item> actionList = List.empty(growable: true);
 
-    categoryWiseItem["All"] = itemList;
-    actionList.addAll(itemList);
-  }
+  // void decodeResponseBody(String respBody) {
+  //   var data = json.decode(respBody);
+  //   List<dynamic> products = data["products"];
+  //   categoryList.add("All");
+  //   for (var it in products) {
+  //     var returnItemObj = Item.fromJson(it);
+  //     if (categoryWiseItem.containsKey(returnItemObj.category)) {
+  //       itemList.add(returnItemObj);
+  //       if (categoryWiseItem[returnItemObj.category] != null) {
+  //         categoryWiseItem[returnItemObj.category]?.add(returnItemObj);
+  //       }
+  //     } else {
+  //       itemList.add(returnItemObj);
+  //       categoryWiseItem[returnItemObj.category] = [returnItemObj];
+  //       categoryList.add(returnItemObj.category);
+  //     }
+  //   }
 
-  Future fetchResponse() async {
-    Uri uri = Uri.parse("https://dummyjson.com/products");
-    http.Response response;
-    response = await http.get(uri);
-    debugPrint("responseCodeis ke paas");
-    if (response.statusCode == 200) {
-      debugPrint("responseCodeis = 201");
-      getResponse(response.body);
-    } else {
-      print("not worked");
-    }
-  }
+  //   categoryWiseItem["All"] = itemList;
+  //   actionList.addAll(itemList);
+  // }
 
-  @override
-  void initState() {
-    fetchResponse();
-    super.initState();
-  }
+  // Future fetchResponse() async {
+  //   Uri uri = Uri.parse("https://dummyjson.com/products");
+  //   http.Response response;
+  //   response = await http.get(uri);
+  //   debugPrint("responseCodeis ke paas");
+  //   if (response.statusCode == 200) {
+  //     debugPrint("responseCodeis = 201");
+  //     getResponse(response.body);
+  //   } else {
+  //     print("not worked");
+  //   }
+  // }
 
-  void getResponse(String responseBody) {
-    setState(() {
-      decodeResponseBody(responseBody);
-    });
-  }
+  // @override
+  // void initState() {
+  //   fetchResponse();
+  //   super.initState();
+  // }
+
+  // void getResponse(String responseBody) {
+  //   setState(() {
+  //     decodeResponseBody(responseBody);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,17 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:e_commerce_demo_app/model/Item.dart';
 import 'package:e_commerce_demo_app/search_bar_app.dart';
+import 'package:e_commerce_demo_app/show_item_list.dart';
+import 'package:easy_search_bar/easy_search_bar.dart';
 import 'package:flutter/material.dart';
 
 class AppBarTitle extends StatelessWidget {
+  final List<String> mSuggestions;
+  final Map<String, List<Item>> categoryWise;
+
+  AppBarTitle(
+      {super.key, required this.mSuggestions, required this.categoryWise});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,10 +52,36 @@ class AppBarTitle extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            //for search bar SearchBarApp()
             Container(
               width: 300,
-              child: SearchBarApp(),
+              height: 50,
+              // ignore: sort_child_properties_last
+              child: EasySearchBar(
+                backgroundColor: Colors.white,
+                title: Text(
+                  "Search...",
+                  style: TextStyle(fontSize: 16),
+                ),
+                suggestions: mSuggestions,
+                suggestionTextStyle: TextStyle(fontSize: 16),
+                onSearch: (value) => debugPrint(value),
+                onSuggestionTap: (data) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ShowItemList(
+                          actionListM: categoryWise[data],
+                          mSuggestions: mSuggestions,
+                          categoryWise: categoryWise,
+                        ),
+                      ));
+                },
+              ),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(50)),
             ),
+            //For cart icon
             Container(
               padding: EdgeInsets.only(right: 14),
               decoration: BoxDecoration(
