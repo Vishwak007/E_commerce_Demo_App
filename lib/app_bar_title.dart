@@ -68,14 +68,13 @@ class AppBarTitle extends StatelessWidget {
                 onSearch: (value) => debugPrint(value),
                 onSuggestionTap: (data) {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
+                    context,
+                    MaterialPageRoute(
                         builder: (context) => ShowItemList(
-                          actionListM: categoryWise[data],
-                          mSuggestions: mSuggestions,
-                          categoryWise: categoryWise,
-                        ),
-                      ));
+                            actionListM: categoryWise[data],
+                            mSuggestions: mSuggestions,
+                            categoryWise: categoryWise)),
+                  );
                 },
               ),
               decoration:

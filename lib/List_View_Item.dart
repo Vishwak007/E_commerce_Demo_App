@@ -3,6 +3,7 @@
 import 'package:e_commerce_demo_app/lower_half_part.dart';
 import 'package:e_commerce_demo_app/model/Item.dart';
 import 'package:e_commerce_demo_app/page_view_cart.dart';
+import 'package:e_commerce_demo_app/show_item_list.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -49,27 +50,60 @@ class ListViewItem extends StatelessWidget {
             controller: _controller,
             scrollDirection: Axis.horizontal,
             children: <Widget>[
-              PageViewCart(
-                firstName: "Cell Phones",
-                lastName: "Accessories",
-                numStories: 200,
-                path: "lib/icon/smartphone1.png",
-                colour: Color.fromARGB(255, 0, 150, 51),
+              GestureDetector(
+                child: PageViewCart(
+                  firstName: "Cell Phones",
+                  lastName: "Accessories",
+                  numStories: 200,
+                  path: "lib/icon/smartphone1.png",
+                  colour: Color.fromARGB(255, 0, 150, 51),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ShowItemList(
+                              actionListM: categoryWiseItem[categoryList[1]],
+                              mSuggestions: categoryList,
+                              categoryWise: categoryWiseItem)));
+                },
               ),
-              PageViewCart(
-                firstName: "Shoes",
-                lastName: "Clothes",
-                numStories: 120,
-                path: "lib/icon/shoe.png",
-                colour: Color.fromARGB(255, 33, 244, 255),
+              GestureDetector(
+                child: PageViewCart(
+                  firstName: "Shoes",
+                  lastName: "Clothes",
+                  numStories: 120,
+                  path: "lib/icon/shoe.png",
+                  colour: Color.fromARGB(255, 33, 244, 255),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ShowItemList(
+                              actionListM: categoryWiseItem[categoryList[6]],
+                              mSuggestions: categoryList,
+                              categoryWise: categoryWiseItem)));
+                },
               ),
-              PageViewCart(
-                firstName: "Perfumes",
-                lastName: "Jwelleries",
-                numStories: 390,
-                path: "lib/icon/perfume1.png",
-                colour: Color.fromARGB(255, 255, 53, 38),
-              ),
+              GestureDetector(
+                child: PageViewCart(
+                  firstName: "Perfumes",
+                  lastName: "Jwelleries",
+                  numStories: 390,
+                  path: "lib/icon/perfume1.png",
+                  colour: Color.fromARGB(255, 255, 53, 38),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ShowItemList(
+                              actionListM: categoryWiseItem[categoryList[3]],
+                              mSuggestions: categoryList,
+                              categoryWise: categoryWiseItem)));
+                },
+              )
             ],
           ),
         ),
